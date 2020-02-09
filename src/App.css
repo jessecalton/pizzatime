@@ -1,34 +1,30 @@
+@import url('https://fonts.googleapis.com/css?family=Cairo|Sriracha&display=swap');
+
 .App {
   text-align: center;
 }
+body {
+  background: -webkit-linear-gradient(left, rgba(241,229,101,1) 0%, rgba(254,179,67,0.99) 100%);
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
 }
-
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
-}
-
 header {
   color: #FFF;
   padding: 5px 10px;
   text-align: center;
   align-items: center;
   background-color: rgb(70, 134, 2);
-  border-bottom: solid 2px #D4CAFF;
+  border: solid 5px rgb(220, 103, 40);
 }
 
 .subheader {
+  font-family: 'Sriracha', cursive;
+  font-size: 20px;
   color: #FFF;
-  padding: 15px 20px;
+  margin: 20px 100px;
+  padding: 5px 10px;
   text-align: center;
   align-items: center;
   background-color: rgb(77, 6, 7);
-  border-bottom: solid 2px #D4CAFF;
 }
 
 .item {
@@ -45,18 +41,22 @@ header {
 }
 
 .menu {
+  font-family: 'Cairo', sans-serif;
   display: flex;
   flex-direction: row;
   justify-content: center;
 }
 
-/* .App-header {
-  background-color: #282c34;
-  min-height: 100vh;
+.extras {
+  color: red;
+  font-family: fantasy;
+}
+
+.current-selections {
   display: flex;
-  flex-direction: column;
-  align-items: center;
   justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
-} */
+}
+
+.current-selections > div {
+  background-color: rgb(226, 178, 119);
+}
