@@ -1,26 +1,49 @@
-import React from 'react';
-import logo from './logo.svg';
+import React, {Component} from 'react';
 import './App.css';
+import Header from './components/Header.js';
+import Menu from './components/Menu.js';
+import Selections from './components/Selections.js';
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+class App extends Component {
+  state = {
+    breadItems: [
+      {name: 'Sourdough', isSelected: false, id: 1}, 
+      {name: 'Wheat', isSelected: false, id: 2}, 
+      {name: 'Marble Rye', isSelected: false, id: 3}
+    ]
+  }
+  handleSelectedItem = (index) => {
+    this.setState( prevState => {
+      const updatedSelect = [...prevState.breadItems];
+      const updatedItem = { ...updatedSelect[index] };
+      updatedItem.isSelected = !updatedItem.isSelected;
+
+      updatedSelect[index] = updatedItem;
+      return {
+        breadItems: updatedSelect
+      };
+    });
+  }
+
+  retrieveAllSelectedItems = () => {
+    return (
+      this.state.breadItems.filter(item => item.isSelected === true)
+    )
+  }
+
+  render() {
+    return (
+      <div className="App">
+        <Header text='Welcome to my App about Pizza'/>
+        <Menu 
+          items={this.state.breadItems} 
+          selectItem={this.handleSelectedItem}
+          text='What kind of pizza crust do you want?'
+        />
+        <Selections allItems={this.retrieveAllSelectedItems()}/>
+      </div>
+    );
+  }
 }
 
 export default App;
