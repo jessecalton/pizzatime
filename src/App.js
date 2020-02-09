@@ -1,10 +1,8 @@
 import React, {Component} from 'react';
-import {BrowserRouter, Route, Switch, Link} from 'react-router-dom';
 import './App.css';
 import Header from './components/Header.js';
 import Menu from './components/Menu.js';
 import Selections from './components/Selections.js';
-import Checkout from './components/Checkout.js';
 
 class App extends Component {
   state = {
@@ -94,15 +92,6 @@ class App extends Component {
           text='What kinds of cheese do you want? (Pick 2, 3 is extra $$$)'
         />
         <Selections allItems={this.state}/>
-        <BrowserRouter>
-            <Link to="/checkout">Click me</Link>
-            <Switch>
-              <Route exact path="/" component={App} />
-              <Route path="/checkout">
-                <Checkout />
-              </Route>
-            </Switch>
-        </BrowserRouter>
         
       </div>
     );
