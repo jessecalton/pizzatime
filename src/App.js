@@ -3,6 +3,7 @@ import './App.css';
 import Header from './components/Header.js';
 import Menu from './components/Menu.js';
 import Selections from './components/Selections.js';
+import Arizmendi from './components/Arizmendi.js';
 
 class App extends Component {
   state = {
@@ -81,6 +82,7 @@ class App extends Component {
     return (
       <div className="App">
         <Header text='Welcome to my App about Pizza'/>
+        <Arizmendi />
         <Menu 
           items={this.state.breadItems} 
           selectItem={this.handleSelectedBread}
