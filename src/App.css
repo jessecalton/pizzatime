@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css?family=Cairo|Sriracha&display=swap');
+@import url('https://fonts.googleapis.com/css?family=Cairo|Sriracha|Raleway:400,700,900&display=swap');
 
 .App {
   text-align: center;
@@ -59,4 +59,27 @@ header {
 
 .current-selections > div {
   background-color: rgb(226, 178, 119);
+}
+
+.ideas-header {
+  font-family: 'Raleway', sans-serif;
+  font-size: 20px;
+  margin-bottom: 5px;
+}
+
+.ideas {
+  font-family: 'Raleway', sans-serif;
+  color: rgb(70, 134, 2);
+  font-size: 18px;
+  font-weight: bold;
+}
+
+.tooltip {
+  font-size: 15px;
+  background-color: white;
+}
+
+.pointer-emojis {
+  font-size: 25px;
+  padding: 5px;
 }
