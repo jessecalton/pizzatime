@@ -33,6 +33,7 @@ class App extends Component {
     humanFund: false
   }
 
+  // Resets state after order has taken place
   resetState = () => {
     this.setState(prevState => {
       const resetBread = [ ...prevState.breadItems ].map(bread => {
@@ -75,6 +76,7 @@ class App extends Component {
     });
   };
 
+  // Updates which toppings have been selected, as many toppings as the user wants.
   handleSelectedToppings = (index) => {
     this.setState( prevState => {
       const toppingsState = [...prevState.toppings];
@@ -87,20 +89,13 @@ class App extends Component {
     });
   };
 
-  // setHumanFundState = () => {
-  //   this.setState( prevState => {
-  //     let human = [...prevState.cheeses].filter(item => item.isSelected === true).length > 2
-  //     console.log(human)
-  //     return {
-  //       humanFund: human
-  //     }
-  //   })
-  // }
-
+  // Updates cheese selection. User can select up to 3, wherein the `humanFund`
+  // state is updated.
   handleSelectedCheese = (index) => {
     this.setState( prevState => {
       const cheeseState = [...prevState.cheeses];
       const updatedItem = { ...cheeseState[index] };
+      // Count the current total of selected cheeses
       const selectedCheese = cheeseState.reduce((count, cheese) => {
         if(cheese.isSelected){
           count++;
