@@ -22,13 +22,12 @@ class Arizmendi extends Component {
         try {
             const taste = await axios.get(proxyurl + 'https://www.arizmendibakery.com/pizza')
             let pizzaStuffHTML = await taste.data
-            console.log(pizzaStuffHTML)
             this.setState(() => {
                 const todaysPizza = this.sanitizePizzaMenu(pizzaStuffHTML);
                 return {todaysPizza: todaysPizza}
             })
         } catch (err) {
-            console.log('No Pizza Today...')
+            return {todaysPizza: 'Could not get pizza...'}
         }
     }
     

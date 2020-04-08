@@ -55,6 +55,8 @@ header {
 .current-selections {
   display: flex;
   justify-content: center;
+  padding: 0px 250px;
+  flex-wrap: wrap;
 }
 
 .current-selections > div {
@@ -77,6 +79,11 @@ header {
 .tooltip {
   font-size: 15px;
   background-color: white;
+}
+
+.total {
+  font-family: 'Raleway', sans-serif;
+  font-size: 20px;
 }
 
 .pointer-emojis {
