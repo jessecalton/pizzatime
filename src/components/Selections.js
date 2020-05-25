@@ -30,7 +30,7 @@ class Selections extends Component {
                         )}
                     </div>
                     <div>
-                        <h4 className="total">Your total is: {this.props.totalCost}</h4>
+                        <h4 className="total">Your total is: ${this.props.totalCost}</h4>
                     </div>
                 </div>
             )

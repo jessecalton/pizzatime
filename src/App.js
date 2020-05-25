@@ -4,7 +4,6 @@ import Header from './components/Header.js';
 import Menu from './components/Menu.js';
 import Selections from './components/Selections.js';
 import Arizmendi from './components/Arizmendi.js';
-import Checkout from './components/Checkout.js';
 
 class App extends Component {
   state = {
@@ -48,34 +47,11 @@ componentDidUpdate (prevProps, prevState) {
       totalCost += 4.0
   }
   totalCost += selectedToppings.length * 0.50
-  totalCost = `$${Math.abs(totalCost).toFixed(1)}`
+  totalCost = `${Math.abs(totalCost).toFixed(1)}`
   if (totalCost !== prevState.totalCost) {
     this.setState({totalCost: totalCost})  
   }
 }
-  // Resets state after order has taken place
-  // resetState = () => {
-  //   this.setState(prevState => {
-  //     const resetBread = [ ...prevState.breadItems ].map(bread => {
-  //       bread.isSelected = false
-  //       return bread
-  //     })
-  //     const resetCheese = [ ...prevState.cheeses ].map(cheese => {
-  //       cheese.isSelected = false
-  //       return cheese
-  //     })
-  //     const resetToppings = [ ...prevState.toppings ].map(topping => {
-  //       topping.isSelected = false
-  //       return topping
-  //     })
-  //     return {
-  //       breadItems: resetBread,
-  //       cheeses: resetCheese,
-  //       toppings: resetToppings,
-  //       orderComplete: true
-  //     }
-  //   })
-  // }
 
   // Only one bread type can be selected
   handleSelectedBread = (index) => {
@@ -153,9 +129,14 @@ componentDidUpdate (prevProps, prevState) {
 
   checkoutHandler = () => {
     const queryParams = []
-    // for (let i in this.state.ingredients) {
-    //     queryParams.push(encodeURIComponent(i) + '=' + encodeURIComponent(this.state.ingredients[i]));
-    // }
+    const selectedBread = this.state.breadItems.filter(item => item.isSelected === true).map(bread => bread.name)
+    queryParams.push("bread=" + encodeURIComponent(selectedBread))
+    let selectedCheese = this.state.cheeses.filter(item => item.isSelected === true).map(cheese => cheese.name)
+    queryParams.push("cheese=" + encodeURIComponent(selectedCheese.join(' ')))
+    const selectedToppings = this.state.toppings.filter(item => item.isSelected === true).map(topper => topper.name)
+    queryParams.push("toppings=" + encodeURIComponent(selectedToppings.join(' ')))
+    queryParams.push("humanfund=" + this.state.humanFund)
+    queryParams.push("price=" + this.state.totalCost)
     const queryString = queryParams.join('&');
     this.props.history.push({
       pathname: '/checkout',
@@ -167,7 +148,6 @@ componentDidUpdate (prevProps, prevState) {
     return (
       <div className="App">
         <Header text='Welcome to my App about Pizza'/>
-        <Checkout display={this.state.orderComplete} humanFund={this.state.humanFund}/>
         <Arizmendi />
         <Menu 
           items={this.state.breadItems} 
