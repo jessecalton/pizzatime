@@ -18,10 +18,11 @@ header {
 
 .subheader {
   font-family: 'Sriracha', cursive;
-  font-size: 20px;
+  font-size: 15px;
   color: #FFF;
-  margin: 20px 100px;
-  padding: 5px 10px;
+  margin: 20px auto;
+  padding: 1px 5px;
+  width: 80%;
   text-align: center;
   align-items: center;
   background-color: rgb(77, 6, 7);
@@ -95,6 +96,19 @@ header {
   text-align: center;
   font-family: 'Raleway', sans-serif;
   font-size: 20px;
-  width: 80%;
-  margin: 20px;
+  margin: 20px 100px;
+}
+
+.Checkout > p {
+  width: 50%;
+  margin: 0 auto;
+  padding: 20px 0;
+}
+
+.Button {
+  font: inherit;
+  color: green;
+  border: 3px solid black;
+  padding: 10px;
+  margin: 10px;
 }

@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import Header from './Header';
+import Button from './Button';
 import {Link} from 'react-router-dom';
-import { getNodeText } from '@testing-library/react';
 
 class Checkout extends Component {
     state = {
@@ -55,14 +55,14 @@ class Checkout extends Component {
         return (
             <div >
                 <Header text='Pizza is on the way! Thank you for your order!'/>
-                {humanFund}
                 <div className='Checkout'>
+                    {humanFund}
                     <p>
                         Your total comes to: <strong>${this.state.finalPrice}</strong>
                     </p>
                     {pizzaMessage}
                     <Link to="/">
-                        <button>Make another pizza</button>
+                        <Button>Make another pizza</Button>
                     </Link>
                 </div>
 

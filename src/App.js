@@ -4,6 +4,7 @@ import Header from './components/Header.js';
 import Menu from './components/Menu.js';
 import Selections from './components/Selections.js';
 import Arizmendi from './components/Arizmendi.js';
+import Button from './components/Button';
 
 class App extends Component {
   state = {
@@ -49,7 +50,7 @@ componentDidUpdate (prevProps, prevState) {
   totalCost += selectedToppings.length * 0.50
   totalCost = `${Math.abs(totalCost).toFixed(1)}`
   if (totalCost !== prevState.totalCost) {
-    this.setState({totalCost: totalCost})  
+    this.setState({totalCost: totalCost, orderComplete: totalCost > 8})  
   }
 }
 
@@ -148,6 +149,7 @@ componentDidUpdate (prevProps, prevState) {
     return (
       <div className="App">
         <Header text='Welcome to my App about Pizza'/>
+        <p>Pick one pizza crust and one other thing in order to checkout.</p>
         <Arizmendi />
         <Menu 
           items={this.state.breadItems} 
@@ -165,7 +167,7 @@ componentDidUpdate (prevProps, prevState) {
           text='Pick as many toppings as you want! $.50 each.'
         />
         <Selections allItems={this.state} totalCost={this.state.totalCost} humanFund={this.state.humanFund}/>
-        <button onClick={this.checkoutHandler}>Order my Pizza!</button>
+        <Button disabled={!this.state.orderComplete} clicked={this.checkoutHandler}>Order my Pizza!</Button>
       </div>
     );
   }
