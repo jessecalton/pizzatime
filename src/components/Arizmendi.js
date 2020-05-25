@@ -6,28 +6,32 @@ const proxyurl = "https://cors-anywhere.herokuapp.com/";
 
 class Arizmendi extends Component {
     state = {
-        todaysPizza: 'Loading...'
+        todaysPizza: 'Loading...',
+        pizzaLoaded: null
     }
     // Takes the HTML pizza string and makes it look like a real menu
     sanitizePizzaMenu = (pizza) => {
-        // Remove the HTML
-        let pizzaString = pizza.split('class="active"')[1].split('</td>')[0].split('"yasp-item">')[1].split('</p>')[0];
-        let formattedPizza = pizzaString.replace('p&p', 'parmesan & parsley')
-        // Titleize the pizza toppings
-        formattedPizza = formattedPizza.split(' ').map(ingredient => ingredient.charAt(0).toUpperCase() + ingredient.substring(1)).join(' ')
-        return formattedPizza;
+        let formattedPizza;
+        try {
+            // Remove the HTML
+            let pizzaString = pizza.split('class="active"')[1].split('</td>')[0].split('"yasp-item">')[1].split('</p>')[0];
+            formattedPizza = pizzaString.replace('p&p', 'parmesan & parsley')
+            // Titleize the pizza toppings
+            formattedPizza = formattedPizza.split(' ').map(ingredient => ingredient.charAt(0).toUpperCase() + ingredient.substring(1)).join(' ')
+            this.setState({todaysPizza: formattedPizza, pizzaLoaded: true})
+        } catch {
+            formattedPizza = "Arizmendi's is closed due to KOVID KEVIN"
+            this.setState({todaysPizza: formattedPizza, pizzaLoaded: false})
+        }
     }
     // Updates the state w/ today's Arizmendi pizza once component mounts
     async componentDidMount () {
         try {
             const taste = await axios.get(proxyurl + 'https://www.arizmendibakery.com/pizza')
-            let pizzaStuffHTML = await taste.data
-            this.setState(() => {
-                const todaysPizza = this.sanitizePizzaMenu(pizzaStuffHTML);
-                return {todaysPizza: todaysPizza}
-            })
+            let pizzaStuffHTML = taste.data
+            this.sanitizePizzaMenu(pizzaStuffHTML);
         } catch (err) {
-            return {todaysPizza: 'Could not get pizza...'}
+            this.setState({todaysPizza: 'Could not get pizza...', pizzaLoaded: false})
         }
     }
     
@@ -42,11 +46,17 @@ class Arizmendi extends Component {
     return today
     }
     render() {
+        let emoji = null;
+        if (this.state.pizzaLoaded) {
+            emoji = <span aria-label="savouring food" role="img"> 😋</span>
+        } else if (this.state.pizzaLoaded === false) {
+            emoji = <span aria-label="sad face" role="img"> 😞</span>
+        }
         return (
             <div>
                 <h4 className='ideas-header'>Need ideas? Today, which is {this.getTodaysDate()}, <a href="https://www.arizmendibakery.com/pizza">Arizmendi's Pizza</a> is serving:</h4>
                 <div className='ideas'>{this.state.todaysPizza} 
-                    <span aria-label="savouring food" role="img"> 😋</span>
+                    {emoji}
                 </div>
                 <div>
                     <span className='pointer-emojis' aria-label="pointing right" role="img"> 👉</span>

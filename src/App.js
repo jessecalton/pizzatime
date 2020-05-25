@@ -30,32 +30,52 @@ class App extends Component {
       {name: 'Bosco', isSelected: false, id: 5}
     ],
     orderComplete: false,
-    humanFund: false
+    humanFund: false,
+    totalCost: 0.0
   }
 
-  // Resets state after order has taken place
-  resetState = () => {
-    this.setState(prevState => {
-      const resetBread = [ ...prevState.breadItems ].map(bread => {
-        bread.isSelected = false
-        return bread
-      })
-      const resetCheese = [ ...prevState.cheeses ].map(cheese => {
-        cheese.isSelected = false
-        return cheese
-      })
-      const resetToppings = [ ...prevState.toppings ].map(topping => {
-        topping.isSelected = false
-        return topping
-      })
-      return {
-        breadItems: resetBread,
-        cheeses: resetCheese,
-        toppings: resetToppings,
-        orderComplete: true
-      }
-    })
+componentDidUpdate (prevProps, prevState) {
+  let totalCost = 0.0;
+  const selectedBread = this.state.breadItems.filter(item => item.isSelected === true)
+  const selectedCheese = this.state.cheeses.filter(item => item.isSelected === true)
+  const selectedToppings = this.state.toppings.filter(item => item.isSelected === true)
+  if (selectedBread.length === 1) {
+      totalCost += 8.0
   }
+  if (selectedCheese.length > 2) {
+      totalCost += 6.0
+  } else if (selectedCheese.length >= 1) {
+      totalCost += 4.0
+  }
+  totalCost += selectedToppings.length * 0.50
+  totalCost = `$${Math.abs(totalCost).toFixed(1)}`
+  if (totalCost !== prevState.totalCost) {
+    this.setState({totalCost: totalCost})  
+  }
+}
+  // Resets state after order has taken place
+  // resetState = () => {
+  //   this.setState(prevState => {
+  //     const resetBread = [ ...prevState.breadItems ].map(bread => {
+  //       bread.isSelected = false
+  //       return bread
+  //     })
+  //     const resetCheese = [ ...prevState.cheeses ].map(cheese => {
+  //       cheese.isSelected = false
+  //       return cheese
+  //     })
+  //     const resetToppings = [ ...prevState.toppings ].map(topping => {
+  //       topping.isSelected = false
+  //       return topping
+  //     })
+  //     return {
+  //       breadItems: resetBread,
+  //       cheeses: resetCheese,
+  //       toppings: resetToppings,
+  //       orderComplete: true
+  //     }
+  //   })
+  // }
 
   // Only one bread type can be selected
   handleSelectedBread = (index) => {
@@ -131,6 +151,18 @@ class App extends Component {
     })
   }
 
+  checkoutHandler = () => {
+    const queryParams = []
+    // for (let i in this.state.ingredients) {
+    //     queryParams.push(encodeURIComponent(i) + '=' + encodeURIComponent(this.state.ingredients[i]));
+    // }
+    const queryString = queryParams.join('&');
+    this.props.history.push({
+      pathname: '/checkout',
+      search: '?' + queryString
+  })
+  }
+
   render() {
     return (
       <div className="App">
@@ -152,8 +184,8 @@ class App extends Component {
           selectItem={this.handleSelectedToppings}
           text='Pick as many toppings as you want! $.50 each.'
         />
-        <Selections allItems={this.state} humanFund={this.state.humanFund}/>
-        <button onClick={this.resetState}>Order my Pizza!</button>
+        <Selections allItems={this.state} totalCost={this.state.totalCost} humanFund={this.state.humanFund}/>
+        <button onClick={this.checkoutHandler}>Order my Pizza!</button>
       </div>
     );
   }

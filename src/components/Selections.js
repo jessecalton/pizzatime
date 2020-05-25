@@ -11,27 +11,8 @@ class Selections extends Component {
 
         return selected.concat(bread, cheese, toppings)
     }
-    // extraCheese = () => {
-    //     return this.props.allItems.cheeses.filter(item => item.isSelected === true).length > 2
-    // }
-    getTotal = () => {
-        let totalCost = 0.0;
-        const selectedBread = this.props.allItems.breadItems.filter(item => item.isSelected === true)
-        const selectedCheese = this.props.allItems.cheeses.filter(item => item.isSelected === true)
-        const selectedToppings = this.props.allItems.toppings.filter(item => item.isSelected === true)
-        if (selectedBread.length === 1) {
-            totalCost += 8.0
-        }
-        if (selectedCheese.length > 2) {
-            totalCost += 6.0
-        } else if (selectedCheese.length >= 1) {
-            totalCost += 4.0
-        }
-        totalCost += selectedToppings.length * 0.50
-        return `$${Math.abs(totalCost).toFixed(1)}`
-    }
+    
     render() {
-        
         if (this.parseSelected().length > 0) {
             window.scrollTo(0,document.body.scrollHeight / 3);
             return(
@@ -49,7 +30,7 @@ class Selections extends Component {
                         )}
                     </div>
                     <div>
-                        <h4 className="total">Your total is: {this.getTotal()}</h4>
+                        <h4 className="total">Your total is: {this.props.totalCost}</h4>
                     </div>
                 </div>
             )
