@@ -51,7 +51,12 @@ class Checkout extends Component {
         pizza.push(this.state.pizza[item] + ', ');
       }
       pizza = pizza.join('').slice(0, -2);
-      pizzaMessage = <p> A lovely {pizza} pizza - just for me. </p>;
+      pizzaMessage = (
+        <p>
+          {' '}
+          A lovely <strong>{pizza}</strong> pizza - just for me.{' '}
+        </p>
+      );
     } else {
       pizzaMessage = <p> You didn't actually order a pizza dude... </p>;
     }

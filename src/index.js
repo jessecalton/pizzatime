@@ -1,19 +1,19 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import {Route, Switch, BrowserRouter} from 'react-router-dom';
+import { Route, Switch, BrowserRouter } from 'react-router-dom';
 import './index.css';
 import App from './App';
 import Checkout from './components/Checkout';
 import * as serviceWorker from './serviceWorker';
 
 const app = (
-    <BrowserRouter>
-        <Switch>
-            <Route path="/checkout" component={Checkout} />
-            <Route path="/" exact component={App}/>
-        </Switch>
-    </BrowserRouter>
-)
+  <BrowserRouter>
+    <Switch>
+      <Route path='/checkout' component={Checkout} />
+      <Route path='/' exact component={App} />
+    </Switch>
+  </BrowserRouter>
+);
 
 ReactDOM.render(app, document.getElementById('root'));
 

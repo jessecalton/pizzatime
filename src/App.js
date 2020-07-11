@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 import './App.css';
 import Header from './components/Header.js';
 import Menu from './components/Menu.js';
@@ -9,79 +9,85 @@ import Button from './components/Button';
 class App extends Component {
   state = {
     breadItems: [
-      {name: 'Sourdough', isSelected: false, id: 1}, 
-      {name: 'Wheat', isSelected: false, id: 2}, 
-      {name: 'Marble Rye', isSelected: false, id: 3},
-      {name: 'Cornflour', isSelected: false, id: 4}
+      { name: 'Sourdough', isSelected: false, id: 1 },
+      { name: 'Wheat', isSelected: false, id: 2 },
+      { name: 'Marble Rye', isSelected: false, id: 3 },
+      { name: 'Cornflour', isSelected: false, id: 4 },
     ],
     cheeses: [
-      {name: 'Mozzarella', isSelected: false, id: 1},
-      {name: 'Parmesan', isSelected: false, id: 2},
-      {name: 'Goat', isSelected: false, id: 3},
-      {name: 'Ricotta', isSelected: false, id: 4},
-      {name: 'Romano', isSelected: false, id: 5},
-      {name: 'Orange', isSelected: false, id: 6}
+      { name: 'Mozzarella', isSelected: false, id: 1 },
+      { name: 'Parmesan', isSelected: false, id: 2 },
+      { name: 'Goat', isSelected: false, id: 3 },
+      { name: 'Ricotta', isSelected: false, id: 4 },
+      { name: 'Romano', isSelected: false, id: 5 },
+      { name: 'Orange', isSelected: false, id: 6 },
     ],
     toppings: [
-      {name: 'Basil', isSelected: false, id: 1},
-      {name: 'Mushrooms', isSelected: false, id: 2},
-      {name: 'Potato', isSelected: false, id: 3},
-      {name: 'Onion', isSelected: false, id: 4},
-      {name: 'Bosco', isSelected: false, id: 5}
+      { name: 'Basil', isSelected: false, id: 1 },
+      { name: 'Mushrooms', isSelected: false, id: 2 },
+      { name: 'Potato', isSelected: false, id: 3 },
+      { name: 'Onion', isSelected: false, id: 4 },
+      { name: 'Bosco', isSelected: false, id: 5 },
     ],
     orderComplete: false,
     humanFund: false,
-    totalCost: 0.0
-  }
+    totalCost: 0.0,
+  };
 
-componentDidUpdate (prevProps, prevState) {
-  let totalCost = 0.0;
-  const selectedBread = this.state.breadItems.filter(item => item.isSelected === true)
-  const selectedCheese = this.state.cheeses.filter(item => item.isSelected === true)
-  const selectedToppings = this.state.toppings.filter(item => item.isSelected === true)
-  if (selectedBread.length === 1) {
-      totalCost += 8.0
+  componentDidUpdate(prevProps, prevState) {
+    let totalCost = 0.0;
+    const selectedBread = this.state.breadItems.filter(
+      (item) => item.isSelected === true
+    );
+    const selectedCheese = this.state.cheeses.filter(
+      (item) => item.isSelected === true
+    );
+    const selectedToppings = this.state.toppings.filter(
+      (item) => item.isSelected === true
+    );
+    if (selectedBread.length === 1) {
+      totalCost += 8.0;
+    }
+    if (selectedCheese.length > 2) {
+      totalCost += 6.0;
+    } else if (selectedCheese.length >= 1) {
+      totalCost += 4.0;
+    }
+    totalCost += selectedToppings.length * 0.5;
+    totalCost = `${Math.abs(totalCost).toFixed(1)}`;
+    if (totalCost !== prevState.totalCost) {
+      this.setState({ totalCost: totalCost, orderComplete: totalCost > 8 });
+    }
   }
-  if (selectedCheese.length > 2) {
-      totalCost += 6.0
-  } else if (selectedCheese.length >= 1) {
-      totalCost += 4.0
-  }
-  totalCost += selectedToppings.length * 0.50
-  totalCost = `${Math.abs(totalCost).toFixed(1)}`
-  if (totalCost !== prevState.totalCost) {
-    this.setState({totalCost: totalCost, orderComplete: totalCost > 8})  
-  }
-}
 
   // Only one bread type can be selected
   handleSelectedBread = (index) => {
-    this.setState( prevState => {
-      const breadState = [...prevState.breadItems]
+    this.setState((prevState) => {
+      const breadState = [...prevState.breadItems];
       const updatedItem = { ...breadState[index] };
-      if(updatedItem.isSelected === false){
-        breadState.map(bread => {
+      if (updatedItem.isSelected === false) {
+        breadState.map((bread) => {
           bread.isSelected = false;
-          return bread
+          return bread;
         });
-      } 
+      }
       updatedItem.isSelected = !updatedItem.isSelected;
       breadState[index] = updatedItem;
       return {
-        breadItems: breadState
+        breadItems: breadState,
       };
     });
   };
 
   // Updates which toppings have been selected, as many toppings as the user wants.
   handleSelectedToppings = (index) => {
-    this.setState( prevState => {
+    this.setState((prevState) => {
       const toppingsState = [...prevState.toppings];
-      const updatedItem = {...toppingsState[index]};
+      const updatedItem = { ...toppingsState[index] };
       updatedItem.isSelected = !updatedItem.isSelected;
       toppingsState[index] = updatedItem;
       return {
-        toppings: toppingsState
+        toppings: toppingsState,
       };
     });
   };
@@ -89,25 +95,25 @@ componentDidUpdate (prevProps, prevState) {
   // Updates cheese selection. User can select up to 3, wherein the `humanFund`
   // state is updated.
   handleSelectedCheese = (index) => {
-    this.setState( prevState => {
+    this.setState((prevState) => {
       const cheeseState = [...prevState.cheeses];
       const updatedItem = { ...cheeseState[index] };
       // Count the current total of selected cheeses
       const selectedCheese = cheeseState.reduce((count, cheese) => {
-        if(cheese.isSelected){
+        if (cheese.isSelected) {
           count++;
         }
         return count;
-      },0)
+      }, 0);
 
-      if(selectedCheese === 3 && updatedItem.isSelected === true){
+      if (selectedCheese === 3 && updatedItem.isSelected === true) {
         // If 3 are selected, this deselects a cheese
         updatedItem.isSelected = !updatedItem.isSelected;
         cheeseState[index] = updatedItem;
-      } else if(selectedCheese === 3){
+      } else if (selectedCheese === 3) {
         // If 3 are already selected, does not allow selecting more
         return {
-          cheeses: cheeseState
+          cheeses: cheeseState,
         };
       } else {
         updatedItem.isSelected = !updatedItem.isSelected;
@@ -115,59 +121,76 @@ componentDidUpdate (prevProps, prevState) {
       }
       // Yes I'm repeating myself here, but I'm tired and want it to work
       const newCheeseCount = cheeseState.reduce((count, cheese) => {
-        if(cheese.isSelected){
+        if (cheese.isSelected) {
           count++;
         }
         return count;
-      },0)
-      const humanFund = newCheeseCount === 3 ? true : false
+      }, 0);
+      const humanFund = newCheeseCount === 3 ? true : false;
       return {
         cheeses: cheeseState,
-        humanFund: humanFund
+        humanFund: humanFund,
       };
-    })
-  }
+    });
+  };
 
   checkoutHandler = () => {
-    const queryParams = []
-    const selectedBread = this.state.breadItems.filter(item => item.isSelected === true).map(bread => bread.name)
-    queryParams.push("bread=" + encodeURIComponent(selectedBread))
-    let selectedCheese = this.state.cheeses.filter(item => item.isSelected === true).map(cheese => cheese.name)
-    queryParams.push("cheese=" + encodeURIComponent(selectedCheese.join(' ')))
-    const selectedToppings = this.state.toppings.filter(item => item.isSelected === true).map(topper => topper.name)
-    queryParams.push("toppings=" + encodeURIComponent(selectedToppings.join(' ')))
-    queryParams.push("humanfund=" + this.state.humanFund)
-    queryParams.push("price=" + this.state.totalCost)
+    const queryParams = [];
+    const selectedBread = this.state.breadItems
+      .filter((item) => item.isSelected === true)
+      .map((bread) => bread.name);
+    queryParams.push('bread=' + encodeURIComponent(selectedBread));
+    let selectedCheese = this.state.cheeses
+      .filter((item) => item.isSelected === true)
+      .map((cheese) => cheese.name);
+    queryParams.push('cheese=' + encodeURIComponent(selectedCheese.join(' ')));
+    const selectedToppings = this.state.toppings
+      .filter((item) => item.isSelected === true)
+      .map((topper) => topper.name);
+    queryParams.push(
+      'toppings=' + encodeURIComponent(selectedToppings.join(' '))
+    );
+    queryParams.push('humanfund=' + this.state.humanFund);
+    queryParams.push('price=' + this.state.totalCost);
     const queryString = queryParams.join('&');
     this.props.history.push({
       pathname: '/checkout',
-      search: '?' + queryString
-  })
-  }
+      search: '?' + queryString,
+    });
+  };
 
   render() {
     return (
-      <div className="App">
-        <Header text='Welcome to my App about Pizza'/>
+      <div className='App'>
+        <Header text='Welcome to PizzaThyme' />
         <p>Pick one pizza crust and one other thing in order to checkout.</p>
         <Arizmendi />
-        <Menu 
-          items={this.state.breadItems} 
+        <Menu
+          items={this.state.breadItems}
           selectItem={this.handleSelectedBread}
           text='What kind of pizza crust do you want? (Pick One)'
         />
-        <Menu 
+        <Menu
           items={this.state.cheeses}
           selectItem={this.handleSelectedCheese}
           text='What kinds of cheese do you want? (Pick 2, 3 is extra $$$)'
         />
-        <Menu 
+        <Menu
           items={this.state.toppings}
           selectItem={this.handleSelectedToppings}
           text='Pick as many toppings as you want! $.50 each.'
         />
-        <Selections allItems={this.state} totalCost={this.state.totalCost} humanFund={this.state.humanFund}/>
-        <Button disabled={!this.state.orderComplete} clicked={this.checkoutHandler}>Order my Pizza!</Button>
+        <Selections
+          allItems={this.state}
+          totalCost={this.state.totalCost}
+          humanFund={this.state.humanFund}
+        />
+        <Button
+          disabled={!this.state.orderComplete}
+          clicked={this.checkoutHandler}
+        >
+          Order my Pizza!
+        </Button>
       </div>
     );
   }
